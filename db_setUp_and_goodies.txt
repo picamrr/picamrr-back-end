@@ -1,0 +1,36 @@
+insert into users(email,name,password,phone_number) values ('a@yahoo.com','Popa Monica','$2a$10$bcdOCgSlQqEnKQNaGgb4v.H9HG/qZauFGaobd6lVtlpZh0yX80cQa','0735654456');
+insert into users(email,name,password,phone_number) values ('b@yahoo.com','Anda Ionescu','$2a$10$bcdOCgSlQqEnKQNaGgb4v.H9HG/qZauFGaobd6lVtlpZh0yX80cQa','0735654457');
+insert into users(email,name,password,phone_number) values ('c@yahoo.com','Ioni Patroescu','$2a$10$bcdOCgSlQqEnKQNaGgb4v.H9HG/qZauFGaobd6lVtlpZh0yX80cQa','0735654666');
+insert into users(email,name,password,phone_number) values ('d@yahoo.com','Paul Orasan','$2a$10$bcdOCgSlQqEnKQNaGgb4v.H9HG/qZauFGaobd6lVtlpZh0yX80cQa','0735454456');
+insert into users(email,name,password,phone_number) values ('e@yahoo.com','Casi Maricas','$2a$10$bcdOCgSlQqEnKQNaGgb4v.H9HG/qZauFGaobd6lVtlpZh0yX80cQa','0735654321');
+insert into users(email,name,password,phone_number) values ('f@yahoo.com','Raul Pele','$2a$10$bcdOCgSlQqEnKQNaGgb4v.H9HG/qZauFGaobd6lVtlpZh0yX80cQa','0735654777');
+insert into users(email,name,password,phone_number) values ('g@yahoo.com','Rares Pasalan','$2a$10$bcdOCgSlQqEnKQNaGgb4v.H9HG/qZauFGaobd6lVtlpZh0yX80cQa','0735622256');
+
+insert into restaurants(address, name, phone_number, stars) values ('Str. Ionel Petrescu Nr.8','Form','0756321654',9.7);
+insert into restaurants(address, name, phone_number, stars) values ('Str. Barbu Lautaru Nr.16','Londoner','0756321333',8.7);
+insert into restaurants(address, name, phone_number, stars) values ('Str. Mircea Grozavescu Nr.22','Cafe Pub','0756222654',9.2);
+
+insert into available_seats(gap, no_seats, restaurant_id) values ('10-12',10,1);
+insert into available_seats(gap, no_seats, restaurant_id) values ('14-16',5,1);
+insert into available_seats(gap, no_seats, restaurant_id) values ('18-20',6,1);
+insert into available_seats(gap, no_seats, restaurant_id) values ('11-15',10,2);
+insert into available_seats(gap, no_seats, restaurant_id) values ('15-17',3,2);
+insert into available_seats(gap, no_seats, restaurant_id) values ('10-12',7,3);
+insert into available_seats(gap, no_seats, restaurant_id) values ('12-14',5,3);
+insert into available_seats(gap, no_seats, restaurant_id) values ('14-16',4,3);
+
+
+EndPoints:
+--all requests require authentication--
+--Basic auth--
+!!PASSWORD:1234
+
+GET http://localhost:8080/restaurants -> retrive all restaurants
+POST http://localhost:8080/reservations?restaurantId=? -> make a reservation
+BODY EX:
+{
+    "dateOfReservation" : "2022-12-03",
+    "noOfSeats": "100",
+    "gap": "10-12"
+}
+GET http://localhost:8080/reservations -> retrieves all reservations of logged users
