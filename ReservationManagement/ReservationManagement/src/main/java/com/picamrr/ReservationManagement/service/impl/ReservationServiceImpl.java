@@ -11,7 +11,6 @@ import com.picamrr.ReservationManagement.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -58,8 +57,9 @@ public class ReservationServiceImpl implements ReservationService {
             if (availableSeats.getGap().equals(reservation.getGap())) {
                 availableSeats.setNoSeats(availableSeats.getNoSeats() + reservation.getNoOfSeats());
             }
-            });
+        });
     }
+
     private void validateNoOfSeats(Reservation reservation, Restaurant restaurant) {
         List<AvailableSeats> availableSeatsList = restaurant.getAvailableSeatsPerInterval();
         availableSeatsList.forEach(availableSeats -> {
