@@ -8,4 +8,5 @@ public interface ReservationService {
     Reservation save(String userEmail, Long idRestaurant, Reservation reservation);
 
     List<Reservation> getAllByUser(String userEmail);
+    void delete(Long reservationId);
 }

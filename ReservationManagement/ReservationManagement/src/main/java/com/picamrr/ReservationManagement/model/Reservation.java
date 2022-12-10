@@ -22,7 +22,7 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long id;
     private LocalDateTime reservationMadeAt;
-    @JsonFormat(pattern = "YYYY-MM-dd")
+    @JsonFormat(pattern = "yy-MM-dd")
     @Temporal(DATE)
     private Date dateOfReservation;
     private int noOfSeats;
