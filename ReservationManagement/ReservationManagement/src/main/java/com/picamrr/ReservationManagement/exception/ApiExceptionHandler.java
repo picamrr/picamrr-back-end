@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({RestaurantNotFoundException.class})
+    @ExceptionHandler({RestaurantNotFoundException.class, ReservationNotFoundException.class})
     protected ResponseEntity<ApiExceptionDetails> handleNotFoundException(Exception exception){
         return getResponseEntity(exception, HttpStatus.NOT_FOUND);
     }
@@ -20,6 +20,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({NotEnoughSeatsException.class})
     protected ResponseEntity<ApiExceptionDetails> handleBadRequestException(Exception exception){
         return getResponseEntity(exception, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    protected ResponseEntity<ApiExceptionDetails> handleForbiddenException(Exception exception){
+        return getResponseEntity(exception, HttpStatus.FORBIDDEN);
     }
 
     private ResponseEntity<ApiExceptionDetails> getResponseEntity(Exception exception, HttpStatus httpStatus) {

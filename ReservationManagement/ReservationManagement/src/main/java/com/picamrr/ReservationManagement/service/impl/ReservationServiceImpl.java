@@ -1,6 +1,7 @@
 package com.picamrr.ReservationManagement.service.impl;
 
 import com.picamrr.ReservationManagement.exception.NotEnoughSeatsException;
+import com.picamrr.ReservationManagement.exception.ReservationNotFoundException;
 import com.picamrr.ReservationManagement.exception.RestaurantNotFoundException;
 import com.picamrr.ReservationManagement.model.*;
 import com.picamrr.ReservationManagement.repository.ReservationRepository;
@@ -34,9 +35,29 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.getAllByUser(userRepository.findByEmail(userEmail).get());
     }
 
+    @Override
+    public void delete(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation with id " + reservationId + " does not exist!"));
+        if (reservation.getDateOfReservation().before(new java.util.Date())) {
+            throw new IllegalArgumentException("A previous reservation cannot be cancelled");
+        }
+        updateNoOfAvailableSeats(reservation);
+        reservationRepository.delete(reservation);
+    }
+
     private Restaurant validateRestaurant(Long idRestaurant) {
         return restaurantRepository.findById(idRestaurant)
                 .orElseThrow(() -> new RestaurantNotFoundException("Restaurant with id " + idRestaurant + " does not exist!"));
+    }
+
+    private void updateNoOfAvailableSeats(Reservation reservation) {
+        List<AvailableSeats> availableSeatsList = reservation.getRestaurant().getAvailableSeatsPerInterval();
+        availableSeatsList.forEach(availableSeats -> {
+            if (availableSeats.getGap().equals(reservation.getGap())) {
+                availableSeats.setNoSeats(availableSeats.getNoSeats() + reservation.getNoOfSeats());
+            }
+        });
     }
 
     private void validateNoOfSeats(Reservation reservation, Restaurant restaurant) {

@@ -33,4 +33,5 @@ BODY EX:
     "noOfSeats": "100",
     "gap": "10-12"
 }
-GET http://localhost:8080/reservations -> retrieves all reservations of logged users
+GET http://localhost:8080/reservations -> retrieves all reservations of logged user
+DELETE http://localhost:8080/reservations?reservationId=? -> cancel reservation

@@ -25,4 +25,10 @@ public class ReservationControllerImpl implements ReservationController {
     public ResponseEntity<List<Reservation>> getAll(UserDetails user) {
         return new ResponseEntity<>(reservationService.getAllByUser(user.getUsername()), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Void> cancelReservation(Long reservationId) {
+        reservationService.delete(reservationId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

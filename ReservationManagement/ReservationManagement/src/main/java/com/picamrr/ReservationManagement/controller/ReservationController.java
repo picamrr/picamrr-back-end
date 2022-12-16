@@ -1,6 +1,7 @@
 package com.picamrr.ReservationManagement.controller;
 
 import com.picamrr.ReservationManagement.model.Reservation;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,4 +16,6 @@ public interface ReservationController {
 
     @GetMapping
     ResponseEntity<List<Reservation>> getAll(@AuthenticationPrincipal UserDetails user);
+    @DeleteMapping
+    ResponseEntity<Void> cancelReservation(@RequestParam Long reservationId);
 }
