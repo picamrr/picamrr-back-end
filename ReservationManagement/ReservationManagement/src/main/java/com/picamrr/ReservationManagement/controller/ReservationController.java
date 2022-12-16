@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin()
 @RequestMapping(path = {"/reservations"})
 public interface ReservationController {
     @PostMapping
