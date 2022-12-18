@@ -35,3 +35,10 @@ BODY EX:
 }
 GET http://localhost:8080/reservations -> retrieves all reservations of logged user
 DELETE http://localhost:8080/reservations?reservationId=? -> cancel reservation
+PUT http://localhost:8080/users/{loggedUserEmail} -> update user
+BODY EX:
+{
+    "email":"as@yahoo.com",
+    "phoneNumber":"0734567890",
+    "name":"Pop Ioana"
+} or just one of them, or just two of them etc...
