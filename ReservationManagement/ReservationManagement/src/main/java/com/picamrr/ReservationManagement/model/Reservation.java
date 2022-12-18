@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 import static javax.persistence.TemporalType.DATE;
+import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
 @Table(name = "reservations")
@@ -22,8 +23,8 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long id;
     private LocalDateTime reservationMadeAt;
-    @JsonFormat(pattern = "yy-MM-dd")
-    @Temporal(DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TIMESTAMP)
     private Date dateOfReservation;
     private int noOfSeats;
     private String gap;
