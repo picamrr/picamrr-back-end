@@ -37,6 +37,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(oldUser);
     }
 
+    @Override
+    public User getByEmail(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " wasn't found!"));
+    }
+
     private void validateUserEmail(String email) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new UniqueEmailException("This email is taken!");
