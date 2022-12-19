@@ -11,4 +11,8 @@ import javax.validation.Valid;
 public interface UserController {
     @PutMapping("/{email}")
     ResponseEntity<User> update(@PathVariable String email, @Valid @RequestBody User user);
+
+    @GetMapping("/{email}")
+    ResponseEntity<User> getUserByEmail(@PathVariable String email);
+
 }

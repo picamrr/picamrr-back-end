@@ -17,4 +17,9 @@ public class UserControllerImpl implements UserController {
     public ResponseEntity<User> update(String email, User user) {
         return new ResponseEntity<>(userService.update(email, user), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<User> getUserByEmail(String email) {
+        return new ResponseEntity<>(userService.getByEmail(email), HttpStatus.OK);
+    }
 }

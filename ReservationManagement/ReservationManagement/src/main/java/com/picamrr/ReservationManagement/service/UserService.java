@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface UserService {
     User update(String email, User user);
+    User getByEmail(String email);
 }
