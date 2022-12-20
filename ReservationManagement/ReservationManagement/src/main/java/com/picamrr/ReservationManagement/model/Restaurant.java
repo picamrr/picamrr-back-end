@@ -20,6 +20,9 @@ public class Restaurant {
     private String address;
     private String phoneNumber;
     private Double stars;
+
+    private String image;
+
     @OneToMany
     @JoinColumn(name = "restaurant_id")
     private List<AvailableSeats> availableSeatsPerInterval;
