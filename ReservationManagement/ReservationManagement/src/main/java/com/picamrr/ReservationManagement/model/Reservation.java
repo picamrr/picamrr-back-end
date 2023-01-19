@@ -34,6 +34,8 @@ public class Reservation {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
+    private boolean rated = false;
+
     public Reservation(Date dateOfReservation, int noOfSeats, String gap) {
         this.dateOfReservation = dateOfReservation;
         this.noOfSeats = noOfSeats;

@@ -1,5 +1,6 @@
 package com.picamrr.ReservationManagement.service.impl;
 
+import com.picamrr.ReservationManagement.exception.RestaurantNotFoundException;
 import com.picamrr.ReservationManagement.model.Restaurant;
 import com.picamrr.ReservationManagement.repository.RestaurantRepository;
 import com.picamrr.ReservationManagement.service.RestaurantService;
