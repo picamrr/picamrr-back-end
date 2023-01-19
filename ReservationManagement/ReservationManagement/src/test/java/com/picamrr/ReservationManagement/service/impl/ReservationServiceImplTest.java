@@ -11,39 +11,42 @@ import com.picamrr.ReservationManagement.repository.RestaurantRepository;
 import com.picamrr.ReservationManagement.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class ReservationServiceImplTest {
 
+    private final EmailSenderService emailSenderService = mock(EmailSenderService.class);
     private final ReservationRepository reservationRepository = mock(ReservationRepository.class);
     private final UserRepository userRepository = mock(UserRepository.class);
     private final RestaurantRepository restaurantRepository = mock(RestaurantRepository.class);
-    private ReservationServiceImpl reservationService;
     private final Reservation reservation = mock(Reservation.class);
     private final Restaurant restaurant = mock(Restaurant.class);
     private final Long restaurantId = 1L;
     private final User user = mock(User.class);
     private final String userEmail = "useremail";
+    private ReservationServiceImpl reservationService;
 
     @Before
     public void init() {
-        reservationService = new ReservationServiceImpl(reservationRepository, userRepository, restaurantRepository);
+        reservationService = new ReservationServiceImpl(reservationRepository, userRepository, restaurantRepository, emailSenderService);
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
         when(user.getEmail()).thenReturn(userEmail);
         when(restaurant.getId()).thenReturn(restaurantId);
     }
 
     @Test
-    public void test_save_whenEnoughSeatsAvailable_shouldReturnAndSaveReservation() {
+    public void test_save_whenNotEnoughSeatsAvailable_shouldThrowException() {
         when(restaurantRepository.findById(restaurantId)).thenReturn(Optional.of(restaurant));
 
         when(reservation.getNoOfSeats()).thenReturn(15);
@@ -69,14 +72,16 @@ public class ReservationServiceImplTest {
     }
 
     @Test
-    public void test_save_whenNotEnoughSeatsAvailable_shouldThrowException() {
+    public void test_save_whenEnoughSeatsAvailable_shouldReturnAndSaveReservation() {
         when(restaurantRepository.findById(restaurantId)).thenReturn(Optional.of(restaurant));
 
+        when(reservation.getDateOfReservation()).thenReturn(new Date(2022, Calendar.NOVEMBER, 10));
         when(reservation.getNoOfSeats()).thenReturn(4);
         when(reservation.getGap()).thenReturn("10-12");
         when(restaurant.getAvailableSeatsPerInterval()).thenReturn(List.of(new AvailableSeats(1, "10-12", 10)));
         when(reservationRepository.save(reservation)).thenReturn(reservation);
         when(reservation.getRestaurant()).thenReturn(restaurant);
+        doNothing().when(emailSenderService).sendEmail(anyString(), anyString(), anyString());
 
         Reservation reservation1 = reservationService.save(userEmail, restaurantId, reservation);
         assertEquals(restaurant, reservation1.getRestaurant());
